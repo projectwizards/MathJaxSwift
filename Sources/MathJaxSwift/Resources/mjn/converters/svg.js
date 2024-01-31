@@ -6,6 +6,7 @@ const {liteAdaptor} = require('mathjax-full/js/adaptors/liteAdaptor.js');
 const {RegisterHTMLHandler} = require('mathjax-full/js/handlers/html.js');
 const {AssistiveMmlHandler} = require('mathjax-full/js/a11y/assistive-mml.js');
 
+const {AsciiMath} = require('mathjax-full/js/input/asciimath.js');
 const {MathML} = require('mathjax-full/js/input/mathml.js');
 const {TeX} = require('mathjax-full/js/input/tex.js');
 
@@ -69,6 +70,29 @@ export class SVGConverter {
     var output = [];
     for (let i = 0; i < input.length; i++) {
       output.push(SVGConverter.createSVG(input[i], mml, css, assistiveMml, container, styles, conversionOptions, documentOptions, svgOptions));
+    }
+    return output;
+  }
+  
+   /**
+   * Converts a ASCIIMath input string to SVG.
+   *
+   * @param {string} input The ASCIIMath input string.
+   * @param {boolean} css Whether the documents CSS should be output.
+   * @param {boolean} assistiveMml Whether to include assistive MathML output.
+   * @param {boolean} container Whether the document's outer HTML should be returned.
+   * @param {boolean} styles Whether CSS styles should be included.
+   * @param {object} conversionOptions The MathJax conversion options.
+   * @param {object} documentOptions The math document options.
+   * @param {object} mathmlOptions The MathML input options.
+   * @param {object} svgOptions The SVG output configuration.
+   * @return {string} The SVG formatted string.
+   */
+  static am2svg(input, css, assistiveMml, container, styles, conversionOptions, documentOptions, asciimathOptions, svgOptions) {
+    const asciimath = new AsciiMath(asciimathOptions);
+    var output = [];
+    for (let i = 0; i < input.length; i++) {
+      output.push(SVGConverter.createSVG(input[i], asciimath, css, assistiveMml, container, styles, conversionOptions, documentOptions, svgOptions));
     }
     return output;
   }
